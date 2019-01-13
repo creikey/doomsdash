@@ -28,6 +28,8 @@ import numpy as np
 import glfw
 import ctypes
 import math
+import coloredlogs, logging
+coloredlogs.install()
 
 
 import pynuklear as nk
