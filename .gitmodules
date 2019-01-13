@@ -1,0 +1,6 @@
+[submodule "src/pyMatrixStack"]
+	path = src/pyMatrixStack
+	url = https://github.com/creikey/pyMatrixStack.git
+[submodule "src/pyNuklear"]
+	path = src/pyNuklear
+	url = https://github.com/creikey/pyNuklear.git
