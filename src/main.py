@@ -23,7 +23,9 @@ WIN_CAPTION = "Doomsdash"
 SERVER_URL = "127.0.0.1"
 conn_status = b"NOT CONNECTED"
 conn_color = pynk.lib.nk_rgb(255, 0, 0)
+
 tb = NetworkTables.initialize(server=SERVER_URL)
+#NetworkTables.enableVerboseLogging()
 d_width = WIDTH
 d_height = HEIGHT
 data_box = InputBox(128)
@@ -41,8 +43,19 @@ def connectionListener(connected, info):
         conn_status = b"CONNECTED"
         conn_color = pynk.lib.nk_rgb(0, 255, 0)
 
+def drawValues(ctx, inValues):
+    for k in inValues.keys():
+        pynk.lib.nk_layout_row_dynamic(ctx, 0, 2)
+        pynk.lib.nk_label(ctx, k.encode('utf-8'), pynk.lib.NK_TEXT_LEFT)
+        pynk.lib.nk_label(ctx, str(inValues[k]).encode('utf-8'), pynk.lib.NK_TEXT_RIGHT)
+
+values = {}
+
+def entryListener(key, value, isNew): # isNew is if new entry
+    values[key] = value
 
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+NetworkTables.addEntryListener(entryListener)
 
 if __name__ == '__main__':
 
@@ -84,6 +97,8 @@ if __name__ == '__main__':
 
                 pynk.lib.nk_layout_row_dynamic(nkpy.ctx, 0, 2)
                 data_box.show(nkpy)
+
+                drawValues(nkpy.ctx, values)
             pynk.lib.nk_end(nkpy.ctx)
 
             # Draw
